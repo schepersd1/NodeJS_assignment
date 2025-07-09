@@ -19,20 +19,21 @@ model User {
 }
 
 model Product {
-  id      String        @id @default(uuid())
-  size    String 
-  type    String 
-  owner   String 
-  Fridge  Fridge[]
-  Recipe  Recipe[]
+  id        String        @id @default(uuid())
+  size      Int 
+  type      String 
+  owner     String 
+  fridgeId  String 
+  Fridge    Fridge        @relation(fields: [fridgeId], references: [id])
+  Recipe    Recipe[]        
 
   @@map("products")       
 }
 
 model Fridge {
   id        String      @id @default(uuid())
-  location  String
-  capacity  String
+  location  Int
+  capacity  Int
   products  Product[]
 
   @@map("fridges")
