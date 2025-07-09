@@ -1,11 +1,11 @@
 version: "3"
 services:
     postgres:
-        container_name: example-postgres
+        container_name: fridgeExercise
         image: postgres:latest
         ports:
             - "5432:5432"
         volumes:
-            - ./data/postgres:/data/example-postgres
+            - ./data/postgres:/data/fridgeExercise
         env_file:
             - docker.env
