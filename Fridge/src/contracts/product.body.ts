@@ -7,7 +7,7 @@ class ProductBody {
     // We can expose the properties we want included one by one
     @Expose()
     @IsNumber()
-    public id: number;
+    public id: string;
     
     @Expose()
 	@IsNumber()
