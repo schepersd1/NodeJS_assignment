@@ -9,7 +9,6 @@ import { update } from "../../controllers/users/handlers/update.handler";
 import { User, UserStore } from "../../controllers/users/handlers/user.store";
 import { prisma } from "../../lib/prisma";
 import bcrypt from "bcryptjs";
-import { randomUUID } from "crypto";
 
 const userFixtures: User[] = [
 	{
@@ -60,7 +59,7 @@ describe("Handler tests", () => {
 
 		it("should fail when getting user by unknown id", async () => {
 			try {
-				await get(randomUUID());
+				await get("00");
 			} catch (error) {
 				expect(error.message).equal("User not found");
 				return;
