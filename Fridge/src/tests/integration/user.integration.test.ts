@@ -61,7 +61,8 @@ describe("Integration tests", () => {
 			const { body: createResponse } = await request(app.getHttpServer())
 				.post(`/api/users`)
 				.send({
-					name: "test",
+					firstName: "test",
+					lastName: "testy",
 					email: "test-user+1@panenco.com",
 					password: "real secret stuff",
 				} as UserBody)
@@ -91,14 +92,14 @@ describe("Integration tests", () => {
 				.set("x-auth", token)
 				.expect(200);
 			expect(getListRes[1]).equal(1);
-			expect(getListRes[0][0].name).equal("test");
+			expect(getListRes[0][0].firstName).equal("test");
 
 			// Get the newly created user with token
 			const { body: getResponse } = await request(app.getHttpServer())
 				.get(`/api/users/${createResponse.id}`)
 				.set("x-auth", token)
 				.expect(200);
-			expect(getResponse.name).equal("test");
+			expect(getResponse.firstName).equal("test");
 
 			// Successfully update user with token
 			const { body: updateResponse } = await request(app.getHttpServer())
@@ -109,7 +110,7 @@ describe("Integration tests", () => {
 				.set("x-auth", token)
 				.expect(200);
 
-			expect(updateResponse.name).equal("test");
+			expect(updateResponse.firstName).equal("test");
 			expect(updateResponse.email).equal("test-user+updated@panenco.com");
 			expect(updateResponse.password).undefined; // password excluded from response
 

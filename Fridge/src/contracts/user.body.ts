@@ -11,7 +11,12 @@ class UserBody {
 	@Expose()
 	@IsString()
 	@ApiProperty()
-	public name: string;
+	public firstName: string;
+
+	@Expose()
+	@IsString()
+	@ApiProperty()
+	public lastName: string;
 
 	@Expose()
 	// We can start adding validation decorators that specify exactly what we expect from the object we will be validating

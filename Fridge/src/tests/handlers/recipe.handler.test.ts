@@ -17,17 +17,19 @@ import { putProductInFridge } from "../../controllers/fridges/handlers/putProduc
 
 const userFixtures: User[] = [
   {
-    name: "test1",
-    email: "test-user+1@panenco.com",
-    id: 0,
-    password: "password1",
+      firstName: "test1",
+      lastName: "tester1",
+      email: "test-user+1@panenco.com",
+      id: 0,
+      password: "password1",
   },
   {
-    name: "test2",
-    email: "test-user+2@panenco.com",
-    id: 1,
-    password: "password2",
-  },
+  firstName: "test2",
+      lastName: "tester2",
+  email: "test-user+2@panenco.com",
+  id: 1,
+  password: "password2",
+},
 ];
 const fridgeFixtures: Fridge[] = [
   {
@@ -91,7 +93,8 @@ describe("Handler tests", () => {
           const hashedPassword = await bcrypt.hash(fixture.password, 10);
           return prisma.user.create({
             data: {
-              name: fixture.name,
+              firstName: fixture.firstName,
+              lastName: fixture.lastName,
               email: fixture.email,
               password: hashedPassword,
             },

@@ -14,7 +14,8 @@ import bcrypt from "bcryptjs";
 
 const userFixtures: User[] = [
   {
-    name: "test2",
+    firstName: "test2",
+    lastName: "tester2",
     email: "test-user-2@panenco.com",
     id: 1,
     password: "password2",
@@ -115,7 +116,8 @@ describe("Integration tests", () => {
             );
             return prisma.user.create({
                 data: {
-                    name: fixture.name,
+                    firstName: fixture.firstName,
+                    lastName: fixture.lastName,
                     email: fixture.email,
                     password: hashedPassword,
                 },
@@ -178,7 +180,8 @@ describe("Integration tests", () => {
       const { body: createResponse } = await request(app.getHttpServer())
         .post(`/api/users`)
         .send({
-          name: "test",
+          firstName: "test",
+          lastName: "testy",
           email: "test-user-1@panenco.com",
           password: "real secret stuff",
         } as UserBody)

@@ -14,22 +14,24 @@ import { giftAllProducts } from "../../controllers/products/handlers/giftAllProd
 import { giftAllProductsFromFridge } from "../../controllers/products/handlers/giftAllProductsFromFridge.handler";
 
 
-import { User } from "../../controllers/users/handlers/user.store";
 import { prisma } from "../../lib/prisma";
 import bcrypt from "bcryptjs";
 import { Fridge, Product, ProductType } from "@prisma/client";
 import { deleteProductFromFridge } from "../../controllers/fridges/handlers/deleteProductFromFridge.handler";
 import { ProductTypeEnum } from "../../enums/productType.enum";
+import { User } from "../../controllers/users/handlers/user.store";
 
 const userFixtures: User[] = [
     {
-        name: "test1",
+        firstName: "test1",
+        lastName: "tester1",
         email: "test-user+1@panenco.com",
         id: 0,
         password: "password1",
     },
     {
-		name: "test2",
+		firstName: "test2",
+        lastName: "tester2",
 		email: "test-user+2@panenco.com",
 		id: 1,
 		password: "password2",
@@ -92,7 +94,8 @@ describe("Handler tests", () => {
                     );
                     return prisma.user.create({
                         data: {
-                            name: fixture.name,
+                            firstName: fixture.firstName,
+                            lastName: fixture.lastName,
                             email: fixture.email,
                             password: hashedPassword,
                         },
