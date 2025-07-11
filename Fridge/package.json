@@ -11,11 +11,11 @@
     "build:clean": "rm -rf build && pnpm run build",
     "start": "node build/server.js",
     "dev": "ts-node src/main.ts",
-    "test": "NODE_OPTIONS='--import=tsx' mocha ./src/tests/**/*.test.ts",
+    "test": "DATABASE_URL='postgresql://root:root@localhost:5432/fridgeDatabase?schema=public' NODE_OPTIONS='--import=tsx' mocha ./src/tests/**/*.test.ts",
     "db:generate": "prisma generate",
-		"db:push": "prisma db push",
-		"db:migrate": "prisma migrate dev",
-		"db:studio": "prisma studio"
+    "db:push": "prisma db push",
+    "db:migrate": "prisma migrate dev",
+    "db:studio": "prisma studio"
   },
   "keywords": [],
   "author": "",
