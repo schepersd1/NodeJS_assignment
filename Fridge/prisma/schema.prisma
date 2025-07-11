@@ -18,10 +18,14 @@ model User {
   @@map("users")
 }
 
+enum ProductType {
+  Food
+  Drink
+}
 model Product {
   id        String        @id @default(uuid())
   size      Int 
-  type      String 
+  type      ProductType 
   owner     String 
   fridgeId  String? 
   fridge    Fridge?       @relation(fields: [fridgeId], references: [id])

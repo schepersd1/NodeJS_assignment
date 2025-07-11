@@ -1,5 +1,6 @@
 import { Exclude, Expose } from "class-transformer";
-import { IsEmail, IsNumber, IsString, Length } from "class-validator";
+import { IsEmail, IsEnum, IsNumber, IsString, Length } from "class-validator";
+import { ProductTypeEnum } from "../enums/productType.enum";
 
 // For safety we'll exclude everything from being transformed by placing a @Exclude() decorator on the class declaration
 @Exclude()
@@ -14,8 +15,8 @@ class ProductBody {
 	public size: number;
 
     @Expose()
-    @IsString()
-    public type: string;
+    @IsEnum(ProductTypeEnum)
+    public type: ProductTypeEnum;
 
     @Expose()
     // We can start adding validation decorators that specify exactly what we expect from the object we will be validating
