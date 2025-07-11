@@ -3,8 +3,8 @@ import { deleteRecipe } from "./handlers/delete.handler";
 import { getRecipe } from "./handlers/get.handler";
 import { getRecipeList } from "./handlers/getList.handler";
 import { updateRecipe } from "./handlers/update.handler";
+import { getMissingIngredients } from "./handlers/getMissingIngredients.handler";
 import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post, Query, UseGuards } from "@nestjs/common";
-import { UserBody } from "../../contracts/user.body";
 import { SearchQuery } from "../../contracts/search.query";
 import { JwtAuthGuard } from "../../guards/jwt-auth.guard";
 import { RecipeBody } from "../../contracts/recipe.body";
@@ -24,12 +24,21 @@ export class RecipeController {
 		return getRecipeList(query.search);
 	}
 
+	@Get(":id/missing-ingredients")
+	@UseGuards(JwtAuthGuard)
+	async getMissingIngredients(
+		@Param("id") id: string, 
+		@Query("email") email: string
+	) {
+		return getMissingIngredients(id, email);
+	}
+
 	@Get(":id")
 	@UseGuards(JwtAuthGuard)
 	async getRecipe(@Param("id") id: string) {
 		return getRecipe(id);
 	}
-
+	
 	@Patch(":id")
 	@UseGuards(JwtAuthGuard)
 	async updateRecipe(

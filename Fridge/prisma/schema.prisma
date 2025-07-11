@@ -23,9 +23,9 @@ model Product {
   size      Int 
   type      String 
   owner     String 
-  fridgeId  String 
-  Fridge    Fridge        @relation(fields: [fridgeId], references: [id])
-  Recipe    Recipe[]        
+  fridgeId  String? 
+  fridge    Fridge?       @relation(fields: [fridgeId], references: [id])
+  recipe    Recipe[]        
 
   @@map("products")       
 }
