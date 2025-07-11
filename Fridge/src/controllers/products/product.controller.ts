@@ -13,18 +13,26 @@ import { getAllProductsLocation } from "./handlers/getAllProductsLocation.handle
 import { createProduct } from "./handlers/createProduct.handler";
 import { ProductBody } from "../../contracts/product.body";
 import { EmailBody } from "../../contracts/email.body";
+import { ApiOperation, ApiResponse, ApiSecurity, ApiTags } from "@nestjs/swagger";
 
-
+@ApiTags("products")
 @Controller("products")
 export class ProductController {
 	@Post()
+	@UseGuards(JwtAuthGuard)
 	@HttpCode(HttpStatus.CREATED)
+	@ApiSecurity("x-auth")
+	@ApiOperation({ summary: "Create a new product" })
+	@ApiResponse({ status: 201, description: "Product created successfully" })
 	async createProduct(@Body() body: ProductBody) {
 		return createProduct(body);
 	}
 
 	@Patch(":id/gift")
 	@UseGuards(JwtAuthGuard)
+	@ApiSecurity("x-auth")
+	@ApiOperation({ summary: "Gift a product to another user" })
+	@ApiResponse({ status: 200, description: "Product gifted successfully" })
 	async putProductInFridge(
 		@Param("id") id: string,
 		@Body() body: EmailBody
@@ -34,6 +42,9 @@ export class ProductController {
 
 	@Patch(":id/gift-all-from-fridge")
 	@UseGuards(JwtAuthGuard)
+	@ApiSecurity("x-auth")
+	@ApiOperation({ summary: "Gift all their products from a fridge to another user" })
+	@ApiResponse({ status: 200, description: "Products gifted successfully" })
 	async giftAllProductsFromFridge(
 		@Param("id") id: string,
 		@Body() body: GiftProductBody
@@ -43,6 +54,9 @@ export class ProductController {
 
 	@Patch("gift-all")
 	@UseGuards(JwtAuthGuard)
+	@ApiSecurity("x-auth")
+	@ApiOperation({ summary: "Gift all their products from all fridges to another user" })
+	@ApiResponse({ status: 200, description: "Products gifted successfully" })
 	async giftAllProducts(
 		@Body() body: GiftProductBody
 	) {
@@ -52,6 +66,9 @@ export class ProductController {
 
 	@Patch(":id/delete-all-from-fridge")
 	@UseGuards(JwtAuthGuard)
+	@ApiSecurity("x-auth")
+	@ApiOperation({ summary: "Delete all products from a user from a fridge" })
+	@ApiResponse({ status: 200, description: "Products deleted successfully" })
 	async deleteAllProductsFromFridge(
 		@Param("id") id: string,
 		@Body() email: EmailBody
@@ -61,6 +78,9 @@ export class ProductController {
 
 	@Patch("delete-all")
 	@UseGuards(JwtAuthGuard)
+	@ApiSecurity("x-auth")
+	@ApiOperation({ summary: "Delete all products from a user from all fridges" })
+	@ApiResponse({ status: 200, description: "Products deleted successfully" })
 	async deleteAllProducts(
 		@Body() email: EmailBody
 	) {
@@ -69,12 +89,18 @@ export class ProductController {
 
 	@Get()
 	@UseGuards(JwtAuthGuard)
+	@ApiSecurity("x-auth")
+	@ApiOperation({ summary: "Get all products from a user from all fridges" })
+	@ApiResponse({ status: 200, description: "Products retrieved successfully" })
 	async getAllProducts(@Query("email") email: string) {
 		return getAllProducts(email);
 	}
 
 	@Get(":id/all-from-fridge")
 	@UseGuards(JwtAuthGuard)
+	@ApiSecurity("x-auth")
+	@ApiOperation({ summary: "Get all products from a user from a fridge" })
+	@ApiResponse({ status: 200, description: "Products retrieved successfully" })
 	async getAllProductsFromFridge(
 		@Param("id") id: string, 
 		@Query("email") email: string
@@ -84,6 +110,9 @@ export class ProductController {
 
 	@Get(":location/all-from-fridge-in-location")
 	@UseGuards(JwtAuthGuard)
+	@ApiSecurity("x-auth")
+	@ApiOperation({ summary: "Get all products from a user from all fridges in a certain location" })
+	@ApiResponse({ status: 200, description: "Products retrieved successfully" })
 	async getAllProductsLocation(
 		@Param("location",ParseIntPipe) location: number, 
 		@Query("email") email: string
@@ -93,6 +122,9 @@ export class ProductController {
 
 	@Get(":id")
 	@UseGuards(JwtAuthGuard)
+	@ApiSecurity("x-auth")
+	@ApiOperation({ summary: "Get a specific product" })
+	@ApiResponse({ status: 200, description: "Product retrieved successfully" })
 	async getProduct(@Param("id") id: string) {
 		return getProduct(id);
 	}

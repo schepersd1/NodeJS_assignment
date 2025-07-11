@@ -39,12 +39,18 @@ export class UserController {
 
 	@Get(":id")
 	@UseGuards(JwtAuthGuard)
+	@ApiSecurity("x-auth")
+	@ApiOperation({ summary: "Get a user by id" })
+	@ApiResponse({ status: 200, description: "User retrieved successfully" })
 	async get(@Param("id") id: string): Promise<UserView> {
 		return get(id);
 	}
 
 	@Patch(":id")
 	@UseGuards(JwtAuthGuard)
+	@ApiSecurity("x-auth")
+	@ApiOperation({ summary: "Update a user" })
+	@ApiResponse({ status: 200, description: "Users updated successfully" })
 	async update(
 		@Param("id") id: string,
 		@Body() body: UserBody
@@ -55,6 +61,9 @@ export class UserController {
 	@Delete(":id")
 	@UseGuards(JwtAuthGuard)
 	@HttpCode(HttpStatus.NO_CONTENT)
+	@ApiSecurity("x-auth")
+	@ApiOperation({ summary: "Delete a user" })
+	@ApiResponse({ status: 204, description: "User deleted successfully" })
 	async delete(@Param("id") id: string): Promise<void> {
 		await deleteUser(id);
 	}
