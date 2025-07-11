@@ -162,7 +162,7 @@ describe("Handler tests", () => {
 
 
         it("should gift a product to another user", async () => {
-            const res = await giftProduct( products[0].id, users[1].email);
+            const res = await giftProduct( products[0].id, {email: users[1].email});
 
             expect(res.owner).equal(users[1].email);
         });
@@ -274,7 +274,7 @@ describe("Handler tests", () => {
             expect(true, "should have thrown an error").false;
         });
         
-        it("should delete all product from a fridge", async () => {
+        it("should delete all products from a fridge", async () => {
             const productInFridge = await putProductInFridge(fridges[0].id, products[0]);
             expect(productInFridge.fridgeId).equal(fridges[0].id);
             await deleteAllProductsFromFridge(fridges[0].id, users[0].email);

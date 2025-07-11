@@ -6,9 +6,9 @@ import { ProductBody } from "./product.body";
 @Exclude()
 class RecipeBody {
 	// We can expose the properties we want included one by one
-    @Expose()
-    @IsNumber()
-    public id: string;
+    // @Expose()
+    // @IsNumber()
+    // public id: string;
     
 	@Expose()
 	@IsString()

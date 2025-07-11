@@ -1,11 +1,12 @@
 import { NotFoundException } from "@nestjs/common";
 import { prisma } from "../../../lib/prisma";
 import { deleteProductFromFridge } from "../../fridges/handlers/deleteProductFromFridge.handler";
+import { EmailBody } from "../../../contracts/email.body";
 
-export const deleteAllProducts = async (email: string) => {
+export const deleteAllProducts = async (body: EmailBody) => {
     const products = await prisma.product.findMany({
         where:   {
-            owner: email,
+            owner: body.email,
             fridgeId: {
                 not:null,
             }
