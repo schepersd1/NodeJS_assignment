@@ -10,6 +10,11 @@ class ProductBody {
     @Expose()
     @IsNumber()
     public id: string;
+
+    @Expose()
+    @IsString()
+    @ApiProperty()
+    public name: string;
     
     @Expose()
 	@IsNumber()
@@ -22,7 +27,6 @@ class ProductBody {
     public type: ProductTypeEnum;
 
     @Expose()
-    // We can start adding validation decorators that specify exactly what we expect from the object we will be validating
     @IsEmail()
     @ApiProperty()
     public owner: string;

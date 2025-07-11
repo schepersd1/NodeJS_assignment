@@ -24,6 +24,7 @@ enum ProductType {
 }
 model Product {
   id        String        @id @default(uuid())
+  name      String
   size      Int 
   type      ProductType 
   owner     String 

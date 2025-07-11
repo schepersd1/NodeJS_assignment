@@ -55,6 +55,7 @@ const fridgeFixtures: Fridge[] = [
 const productFixtures: Product[] = [
     {
         id: "0",
+        name: "Tomato",
         size: 5,
         type: ProductTypeEnum.Food,
         owner: "test-user+1@panenco.com",
@@ -62,6 +63,7 @@ const productFixtures: Product[] = [
     },
     {
         id: "1",
+        name: "Smoothie",
         size: 10,
         type: ProductTypeEnum.Drink,
         owner: "test-user+2@panenco.com",
@@ -113,6 +115,7 @@ describe("Handler tests", () => {
                 productFixtures.map(async (fixture) => {
                     return prisma.product.create({
                         data: {
+                            name: fixture.name,
                             size: fixture.size,
                             type: fixture.type,
                             owner: fixture.owner,
@@ -125,6 +128,7 @@ describe("Handler tests", () => {
         it("should create product", async () => {
             const body = {
                 id: "0",
+                name: "Onion",
                 size: 5,
                 type: ProductTypeEnum.Food,
                 owner: "test-user+1@panenco.com",
