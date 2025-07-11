@@ -172,6 +172,16 @@ describe("Handler tests", () => {
             expect(res.owner).equal(users[1].email);
         });
 
+        it("should fail when gifting to an unknown user", async () => {
+            try {
+                await giftProduct(products[0].id, {email: "hallo@panenco.com"});
+            } catch (error) {
+                expect(error.message).equal("Email is not linked to a valid user");
+                return;
+            }
+            expect(true, "should have thrown an error").false;
+        });
+
         it("should fail when gifting an unknown product", async () => {
             try {
                 await giftProduct("00", users[1]);
@@ -278,18 +288,48 @@ describe("Handler tests", () => {
             }
             expect(true, "should have thrown an error").false;
         });
+
+        it("should fail when gifting products from an unknown Sender", async () => {
+            try {
+                await giftAllProductsFromFridge(fridges[0].id,{ 
+                    from: "hallo@panenco.com",
+                    to: users[1].email,
+                }
+            );
+            } catch (error) {
+                expect(error.message).equal("Sender Email is not linked to a valid user");
+                return;
+            }
+            expect(true, "should have thrown an error").false;
+        });
+
+        it("should fail when gifting products to an unknown receiver", async () => {
+            try {
+                await giftAllProductsFromFridge(fridges[0].id,{ 
+                    from: users[0].email,
+                    to: "hallo@panenco.com",
+                }
+            );
+            } catch (error) {
+                expect(error.message).equal("Receiver Email is not linked to a valid user");
+                return;
+            }
+            expect(true, "should have thrown an error").false;
+        });
+
+
         
         it("should delete all products from a fridge", async () => {
             const productInFridge = await putProductInFridge(fridges[0].id, products[0]);
             expect(productInFridge.fridgeId).equal(fridges[0].id);
-            await deleteAllProductsFromFridge(fridges[0].id, users[0].email);
+            await deleteAllProductsFromFridge(fridges[0].id, {email: users[0].email});
             const updatedProduct = await getProduct(productInFridge.id);
             expect(updatedProduct.fridgeId).equal(null);
         });
 
         it("should fail when deleting products from unknown fridge", async () => {
             try {
-                await deleteAllProductsFromFridge("00", users[0].email);
+                await deleteAllProductsFromFridge("00", {email: users[0].email});
             } catch (error) {
                 expect(error.message).equal("Fridge not found");
                 return;
@@ -327,7 +367,7 @@ describe("Handler tests", () => {
         it("should delete all products from a user from all fridges", async () => {
             const productInFridge = await putProductInFridge(fridges[0].id, products[0]);
             expect(productInFridge.fridgeId).equal(fridges[0].id);
-            await deleteAllProducts(users[0].email);
+            await deleteAllProducts({email: users[0].email});
             const updatedProduct = await getProduct(productInFridge.id);
             expect(updatedProduct.fridgeId).equal(null);
         });

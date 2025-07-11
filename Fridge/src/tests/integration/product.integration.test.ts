@@ -8,9 +8,19 @@ import { AppModule } from "../../app.module";
 import { UserBody } from "../../contracts/user.body";
 import { prisma } from "../../lib/prisma";
 import { RecipeBody } from "../../contracts/recipe.body";
+import { User } from "../../controllers/users/handlers/user.store";
 import { Fridge, Product, Recipe } from "@prisma/client";
 import { ProductBody } from "../../contracts/product.body";
+import bcrypt from "bcryptjs";
 
+const userFixtures: User[] = [
+  {
+    name: "test2",
+    email: "test-user-2@panenco.com",
+    id: 1,
+    password: "password2",
+  },
+];
 const fridgeFixtures: Fridge[] = [
   {
     id: "0",
@@ -81,12 +91,26 @@ describe("Integration tests", () => {
     });
     let fridges: any[];
     let products: any[];
+    let users: any[];
     beforeEach(async () => {
       // Clean up database before each test
       await prisma.product.deleteMany();
       await prisma.recipe.deleteMany();
       await prisma.fridge.deleteMany();
       await prisma.user.deleteMany();
+      // Create test users
+      users = await Promise.all(
+        userFixtures.map(async (fixture) => {
+          const hashedPassword = await bcrypt.hash(fixture.password, 10);
+          return prisma.user.create({
+            data: {
+              name: fixture.name,
+              email: fixture.email,
+              password: hashedPassword,
+            },
+          });
+        })
+      );
       // Create test fridges
       fridges = await Promise.all(
         fridgeFixtures.map(async (fixture) => {
