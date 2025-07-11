@@ -17,8 +17,9 @@ import { giftAllProductsFromFridge } from "../../controllers/products/handlers/g
 import { User } from "../../controllers/users/handlers/user.store";
 import { prisma } from "../../lib/prisma";
 import bcrypt from "bcryptjs";
-import { Fridge, Product } from "@prisma/client";
+import { Fridge, Product, ProductType } from "@prisma/client";
 import { deleteProductFromFridge } from "../../controllers/fridges/handlers/deleteProductFromFridge.handler";
+import { ProductTypeEnum } from "../../enums/productType.enum";
 
 const userFixtures: User[] = [
     {
@@ -55,14 +56,14 @@ const productFixtures: Product[] = [
     {
         id: "0",
         size: 5,
-        type: "Food",
+        type: ProductTypeEnum.Food,
         owner: "test-user+1@panenco.com",
         fridgeId: null
     },
     {
         id: "1",
         size: 10,
-        type: "Drink",
+        type: ProductTypeEnum.Drink,
         owner: "test-user+2@panenco.com",
         fridgeId: null
     },
@@ -125,7 +126,7 @@ describe("Handler tests", () => {
             const body = {
                 id: "0",
                 size: 5,
-                type: "Food",
+                type: ProductTypeEnum.Food,
                 owner: "test-user+1@panenco.com",
             };
             const res = await createProduct(body);
