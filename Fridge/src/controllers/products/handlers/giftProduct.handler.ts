@@ -1,7 +1,8 @@
 import { BadRequestException, NotFoundException } from "@nestjs/common";
 import { prisma } from "../../../lib/prisma";
+import { EmailBody } from "../../../contracts/email.body";
 
-export const giftProduct = async (id: string, body: string) => {
+export const giftProduct = async (id: string, body: EmailBody) => {
 	const existingProduct = await prisma.product.findUnique({
 		where: { id },
 	});
@@ -11,7 +12,7 @@ export const giftProduct = async (id: string, body: string) => {
 	}
 
     const updateData: any = {};
-	updateData.owner = body;
+	updateData.owner = body.email;
 
 	const updatedProduct =  prisma.product.update({
         where: { id },

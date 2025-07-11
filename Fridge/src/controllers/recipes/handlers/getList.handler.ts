@@ -9,7 +9,6 @@ export const getRecipeList = async (search?: string) => {
 				},
 		  }
 		: {};
-
 	const recipes = await prisma.recipe.findMany({
 		where,
 		orderBy: { name: "desc" },

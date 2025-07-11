@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post, Query, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Patch, Post, Query, UseGuards } from "@nestjs/common";
 import { JwtAuthGuard } from "../../guards/jwt-auth.guard";
 import { giftProduct } from "./handlers/giftProduct.handler";
 import { getProduct } from "./handlers/getProduct.handler";
@@ -12,6 +12,7 @@ import { deleteAllProducts } from "./handlers/deleteAllProducts.handler";
 import { getAllProductsLocation } from "./handlers/getAllProductsLocation.handler";
 import { createProduct } from "./handlers/createProduct.handler";
 import { ProductBody } from "../../contracts/product.body";
+import { EmailBody } from "../../contracts/email.body";
 
 
 @Controller("products")
@@ -26,7 +27,7 @@ export class ProductController {
 	@UseGuards(JwtAuthGuard)
 	async putProductInFridge(
 		@Param("id") id: string,
-		@Body() body: string
+		@Body() body: EmailBody
 	) {
 		return giftProduct(id, body);
 	}
@@ -53,7 +54,7 @@ export class ProductController {
 	@UseGuards(JwtAuthGuard)
 	async deleteAllProductsFromFridge(
 		@Param("id") id: string,
-		@Body() email: string
+		@Body() email: EmailBody
 	) {
 		return deleteAllProductsFromFridge(id, email);
 	}	
@@ -61,7 +62,7 @@ export class ProductController {
 	@Patch("delete-all")
 	@UseGuards(JwtAuthGuard)
 	async deleteAllProducts(
-		@Body() email: string
+		@Body() email: EmailBody
 	) {
 		return deleteAllProducts(email);
 	}	
@@ -84,7 +85,7 @@ export class ProductController {
 	@Get(":location/all-from-fridge-in-location")
 	@UseGuards(JwtAuthGuard)
 	async getAllProductsLocation(
-		@Param("location") location: number, 
+		@Param("location",ParseIntPipe) location: number, 
 		@Query("email") email: string
 	) {
 		return getAllProductsLocation(location, email);
