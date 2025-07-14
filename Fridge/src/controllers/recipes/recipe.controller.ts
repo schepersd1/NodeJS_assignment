@@ -9,6 +9,7 @@ import { SearchQuery } from "../../contracts/search.query";
 import { JwtAuthGuard } from "../../guards/jwt-auth.guard";
 import { RecipeBody } from "../../contracts/recipe.body";
 import { ApiOperation, ApiResponse, ApiSecurity, ApiTags } from "@nestjs/swagger";
+import { getRecipeSuggestions } from "./handlers/getRecipeSuggestions.handler";
 
 @ApiTags("recipes")
 @Controller("recipes")
@@ -42,6 +43,17 @@ export class RecipeController {
 		@Query("email") email: string
 	) {
 		return getMissingIngredients(id, email);
+	}
+
+	@Get(":email/recipe-suggestions")
+	@UseGuards(JwtAuthGuard)
+	@ApiSecurity("x-auth")
+	@ApiOperation({ summary: "Get recipe suggestions, based on the products that they have stored across fridges" })
+	@ApiResponse({ status: 200, description: "Recipe retrieved successfully" })
+	async getRecipeSuggestions(
+		@Param("email") email: string, 
+	) {
+		return getRecipeSuggestions(email);
 	}
 
 	@Get(":id")
