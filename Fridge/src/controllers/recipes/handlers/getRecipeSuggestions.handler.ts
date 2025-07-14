@@ -20,20 +20,24 @@ export const getRecipeSuggestions = async (email: string) => {
     });
     
     const recipeSchema = z.object({
-        name: z.string(),
-        description: z.string(),
-        ingredients: z.array(
-          z.object({
-            name: z.string(),
-            amount: z.string(),
-          }),
-        ),
+      recipes: z.array(
+        z.object({name: z.string(),
+          description: z.string(),
+          ingredients: z.array(
+            z.object({
+              name: z.string(),
+              amount: z.string(),
+            }),
+          ),
+        }),
+      ),
+        
       });
       
       const result = await generateObject({
         model: anthropic('claude-3-5-sonnet-20241022'),
         schema: recipeSchema,
-        prompt: `Generate a recipe based on the following products: ${ingredientsList}`,
+        prompt: `Generate three recipes based on the following products: ${ingredientsList}`,
       });
 
       console.log(JSON.stringify(result.object, null, 2));
