@@ -5,11 +5,12 @@ import { ApiProperty } from "@nestjs/swagger";
 
 // For safety we'll exclude everything from being transformed by placing a @Exclude() decorator on the class declaration
 @Exclude()
-class ProductBody {
+class ProductView {
     // We can expose the properties we want included one by one
-    // @Expose()
-    // @IsNumber()
-    // public id: string;
+    @Expose()
+    @IsString()
+    @ApiProperty()
+    public id: string;
 
     @Expose()
     @IsString()
@@ -17,9 +18,9 @@ class ProductBody {
     public name: string;
     
     @Expose()
-	@IsNumber()
+    @IsNumber()
     @ApiProperty()
-	public size: number;
+    public size: number;
 
     @Expose()
     @IsEnum(ProductTypeEnum)
@@ -32,4 +33,4 @@ class ProductBody {
     public owner: string;
 }
 
-export { ProductBody };
+export { ProductView };

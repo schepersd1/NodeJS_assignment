@@ -1,11 +1,9 @@
 import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post, Query, UseGuards } from "@nestjs/common";
-import { SearchQuery } from "../../contracts/search.query";
 import { JwtAuthGuard } from "../../guards/jwt-auth.guard";
-import { RecipeBody } from "../../contracts/recipe.body";
-import { ProductBody } from "../../contracts/product.body";
 import { putProductInFridge } from "./handlers/putProductInFridge.handler";
 import { deleteProductFromFridge } from "./handlers/deleteProductFromFridge.handler";
 import { ApiOperation, ApiResponse, ApiSecurity, ApiTags } from "@nestjs/swagger";
+import { ProductView } from "../../contracts/product.view";
 
 
 
@@ -19,7 +17,7 @@ export class FridgeController {
 	@ApiResponse({ status: 200, description: "Product added to fridge successfully" })
 	async putProductInFridge(
 		@Param("id") id: string,
-		@Body() body: ProductBody
+		@Body() body: ProductView
 	) {
 		return putProductInFridge(id, body);
 	}
