@@ -15,8 +15,8 @@ export const update = async (id: string, body: Partial<UserBody>) => {
 	}
 
 	const updateData: any = {};
-	if (body.firstName !== undefined) updateData.name = body.firstName;
-	if (body.lastName !== undefined) updateData.name = body.lastName;
+	if (body.firstName !== undefined) updateData.firstName = body.firstName;
+	if (body.lastName !== undefined) updateData.lastName = body.lastName;
 	if (body.email !== undefined) updateData.email = body.email;
 	if (body.password !== undefined) {
 		updateData.password = await bcrypt.hash(body.password, 10);
