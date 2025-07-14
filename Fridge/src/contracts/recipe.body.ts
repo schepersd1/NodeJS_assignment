@@ -2,6 +2,7 @@ import { Exclude, Expose } from "class-transformer";
 import { IsEmail, IsNumber, isString, IsString, Length } from "class-validator";
 import { ProductBody } from "./product.body";
 import { ApiProperty } from "@nestjs/swagger";
+import { ProductView } from "./product.view";
 
 // For safety we'll exclude everything from being transformed by placing a @Exclude() decorator on the class declaration
 @Exclude()
@@ -28,7 +29,7 @@ class RecipeBody {
 
     @Expose()
     @ApiProperty()
-    public ingredients: ProductBody[];
+    public ingredients: ProductView[];
 }
 
 export { RecipeBody };
