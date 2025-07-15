@@ -144,11 +144,10 @@ describe("Handler tests", () => {
 
     it("should create recipe", async () => {
       const body = {
-        id: "0",
         name: "pasta",
         description: "delicious",
         owner: "test-user+1@panenco.com",
-        ingredients: [],
+        ingredients: [products[0].id],
       };
       const res = await createRecipe(body);
 
