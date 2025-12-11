@@ -66,8 +66,6 @@ docker compose up -d
 cd Fridge
 pnpm db:generate
 pnpm db:push
-# Optional during development:
-pnpm db:studio
 ```
 
 ### Run the API
