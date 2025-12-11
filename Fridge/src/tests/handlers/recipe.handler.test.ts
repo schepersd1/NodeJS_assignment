@@ -17,17 +17,19 @@ import { putProductInFridge } from "../../controllers/fridges/handlers/putProduc
 
 const userFixtures: User[] = [
   {
-    name: "test1",
-    email: "test-user+1@panenco.com",
-    id: 0,
-    password: "password1",
+      firstName: "test1",
+      lastName: "tester1",
+      email: "test-user+1@panenco.com",
+      id: 0,
+      password: "password1",
   },
   {
-    name: "test2",
-    email: "test-user+2@panenco.com",
-    id: 1,
-    password: "password2",
-  },
+  firstName: "test2",
+      lastName: "tester2",
+  email: "test-user+2@panenco.com",
+  id: 1,
+  password: "password2",
+},
 ];
 const fridgeFixtures: Fridge[] = [
   {
@@ -49,6 +51,7 @@ const fridgeFixtures: Fridge[] = [
 const productFixtures: Product[] = [
   {
     id: "0",
+    name: "Tomato",
     size: 5,
     type: "Food",
     owner: "test-user+1@panenco.com",
@@ -56,6 +59,7 @@ const productFixtures: Product[] = [
   },
   {
     id: "1",
+    name: "Smoothie",
     size: 10,
     type: "Drink",
     owner: "test-user+2@panenco.com",
@@ -89,7 +93,8 @@ describe("Handler tests", () => {
           const hashedPassword = await bcrypt.hash(fixture.password, 10);
           return prisma.user.create({
             data: {
-              name: fixture.name,
+              firstName: fixture.firstName,
+              lastName: fixture.lastName,
               email: fixture.email,
               password: hashedPassword,
             },
@@ -112,6 +117,7 @@ describe("Handler tests", () => {
         productFixtures.map(async (fixture) => {
           return prisma.product.create({
             data: {
+              name: fixture.name,
               size: fixture.size,
               type: fixture.type,
               owner: fixture.owner,

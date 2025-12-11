@@ -1,8 +1,8 @@
 import { BadRequestException, NotFoundException } from "@nestjs/common";
 import { prisma } from "../../../lib/prisma";
-import { ProductBody } from "../../../contracts/product.body";
+import { ProductView } from "../../../contracts/product.view";
 
-export const putProductInFridge = async (id: string, body: ProductBody) => {
+export const putProductInFridge = async (id: string, body: ProductView) => {
 	const existingFridge = await prisma.fridge.findUnique({
 		where: { id },
         include: { products: true},

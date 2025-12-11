@@ -8,11 +8,8 @@ export const createRecipe = async (body: RecipeBody) => {
 			description: body.description,
 			owner: body.owner,
 			ingredients: {
-				create: body.ingredients.map((product) => ({
-					id: undefined, // omit, Prisma will connect automatically
-					size: product.size,
-					type: product.type,
-					owner: product.owner,
+				connect: body.ingredients.map((product) => ({
+					id: product.id,
 				})),
 			},	
 		},

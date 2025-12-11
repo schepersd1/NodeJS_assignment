@@ -9,7 +9,18 @@ import { UserBody } from "../../contracts/user.body";
 import { prisma } from "../../lib/prisma";
 import { RecipeBody } from "../../contracts/recipe.body";
 import { Fridge, Product, Recipe } from "@prisma/client";
+import { User } from "../../controllers/users/handlers/user.store";
+import bcrypt from "bcryptjs";
 
+const userFixtures: User[] = [
+  {
+    firstName: "test2",
+    lastName: "tester2",
+    email: "test-user-2@panenco.com",
+    id: 1,
+    password: "password2",
+  },
+];
 const fridgeFixtures: Fridge[] = [
   {
     id: "0",
@@ -30,6 +41,7 @@ const fridgeFixtures: Fridge[] = [
 const productFixtures: Product[] = [
   {
     id: "0",
+    name: "Tomato",
     size: 5,
     type: "Food",
     owner: "test-user-1@panenco.com",
@@ -37,6 +49,7 @@ const productFixtures: Product[] = [
   },
   {
     id: "1",
+    name: "Smoothie",
     size: 10,
     type: "Drink",
     owner: "test-user-2@panenco.com",
@@ -87,12 +100,30 @@ describe("Integration tests", () => {
     let fridges: any[];
     let products: any[];
     let recipes: any[];
+    let users: any[];
     beforeEach(async () => {
       // Clean up database before each test
       await prisma.product.deleteMany();
       await prisma.recipe.deleteMany();
       await prisma.fridge.deleteMany();
       await prisma.user.deleteMany();
+      // Create test users
+      users = await Promise.all(
+        userFixtures.map(async (fixture) => {
+            const hashedPassword = await bcrypt.hash(
+                fixture.password,
+                10
+            );
+            return prisma.user.create({
+                data: {
+                    firstName: fixture.firstName,
+                    lastName: fixture.lastName,
+                    email: fixture.email,
+                    password: hashedPassword,
+                },
+            });
+        })
+    );
       // Create test fridges
       fridges = await Promise.all(
         fridgeFixtures.map(async (fixture) => {
@@ -109,6 +140,7 @@ describe("Integration tests", () => {
         productFixtures.map(async (fixture) => {
           return prisma.product.create({
             data: {
+              name: fixture.name,
               size: fixture.size,
               type: fixture.type,
               owner: fixture.owner,
@@ -148,7 +180,8 @@ describe("Integration tests", () => {
       const { body: createResponse } = await request(app.getHttpServer())
         .post(`/api/users`)
         .send({
-          name: "test",
+          firstName: "test",
+          lastName: "testy",
           email: "test-user-1@panenco.com",
           password: "real secret stuff",
         } as UserBody)

@@ -11,14 +11,16 @@ import { prisma } from "../../lib/prisma";
 import bcrypt from "bcryptjs";
 
 const userFixtures: User[] = [
-	{
-		name: "test1",
-		email: "test-user+1@panenco.com",
-		id: 0,
-		password: "password1",
-	},
-	{
-		name: "test2",
+    {
+        firstName: "test1",
+        lastName: "tester1",
+        email: "test-user+1@panenco.com",
+        id: 0,
+        password: "password1",
+    },
+    {
+		firstName: "test2",
+        lastName: "tester2",
 		email: "test-user+2@panenco.com",
 		id: 1,
 		password: "password2",
@@ -41,7 +43,8 @@ describe("Handler tests", () => {
 					);
 					return prisma.user.create({
 						data: {
-							name: fixture.name,
+							firstName: fixture.firstName,
+							lastName: fixture.lastName,
 							email: fixture.email,
 							password: hashedPassword,
 						},
@@ -53,7 +56,7 @@ describe("Handler tests", () => {
 		it("should get user by id", async () => {
 			const res = await get(users[1].id);
 
-			expect(res.name).equal("test2");
+			expect(res.firstName).equal("test2");
 			expect(res.email).equal("test-user+2@panenco.com");
 		});
 
@@ -70,12 +73,13 @@ describe("Handler tests", () => {
 		it("should create user", async () => {
 			const body = {
 				email: "test-user+new@panenco.com",
-				name: "newUser",
+				firstName: "newUser",
+				lastName: "NewNew",
 				password: "reallysecretstuff",
 			};
 			const res = await create(body);
 
-			expect(res.name).equal("newUser");
+			expect(res.firstName).equal("newUser");
 			expect(res.email).equal("test-user+new@panenco.com");
 		});
 
@@ -87,7 +91,7 @@ describe("Handler tests", () => {
 			const res = await update(id, body);
 
 			expect(res.email).equal(body.email);
-			expect(res.name).equal("test1");
+			expect(res.firstName).equal("test1");
 		});
 
 		it("should delete user by id", async () => {

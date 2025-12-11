@@ -18,7 +18,7 @@ export class RecipeController {
 	@HttpCode(HttpStatus.CREATED)
 	@ApiSecurity("x-auth")
 	@ApiOperation({ summary: "Create a new recipe" })
-	@ApiResponse({ status: 201, description: "Users retrieved successfully" })
+	@ApiResponse({ status: 201, description: "Recipe created successfully" })
 	async createRecipe(@Body() body: RecipeBody) {
 		return createRecipe(body);
 	}
